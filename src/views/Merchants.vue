@@ -77,7 +77,10 @@
                             <div class="card component-card_9">
                                     <img :src="merchant.thumb" class="merchant-thumbnail" alt="widget-card-2">
                                     <div class="card-body">
-                                        <p class="meta-date">{{merchant.firstName + ' ' + merchant.lastName}}</p>
+                                        <p class="meta-date">
+                                            {{merchant.companyName}}
+                                            <br />{{merchant.country}}
+                                        </p>
                                     </div>
                                 </div>
                         </div>
@@ -183,8 +186,8 @@ export default {
 
                 /* Set thumbnail URL. */
                 const id = merchant.id
-                const firstName = merchant.firstName
-                const lastName = merchant.lastName
+                const companyName = merchant.companyName
+                const country = merchant.country
 
                 let thumb
 
@@ -195,8 +198,8 @@ export default {
                 /* Validate thumb. */
                 this.merchants.push({
                     id,
-                    firstName,
-                    lastName,
+                    companyName,
+                    country,
                     thumb,
                 })
             })
