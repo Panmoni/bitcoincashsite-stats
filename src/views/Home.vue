@@ -95,6 +95,12 @@
 
                     </div>
 
+                    <div class="row layout-top-spacing">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing clickable" @click="loadCourses">
+                            <TotalActiveCourses />
+                        </div>
+                    </div>
+
                     <Footer />
                 </div>
             </div>
@@ -141,6 +147,7 @@ import MailingList from '@/components/MailingList.vue'
 import NewestPeople from '@/components/NewestPeople.vue'
 // import Spotlight from '@/components/Spotlight.vue'
 import TotalActiveCities from '@/components/TotalActiveCities.vue'
+import TotalActiveCourses from '@/components/TotalActiveCourses.vue'
 import TotalContractorCount from '@/components/TotalContractorCount.vue'
 // import TotalEmailCount from '@/components/TotalEmailCount.vue'
 import TotalEventCount from '@/components/TotalEventCount.vue'
@@ -159,6 +166,7 @@ export default {
         NewestPeople,
         // Spotlight,
         TotalActiveCities,
+        TotalActiveCourses,
         TotalContractorCount,
         // TotalEmailCount,
         TotalEventCount,
@@ -216,6 +224,10 @@ export default {
 
         loadEmails() {
             this.$router.push('emails')
+        },
+
+        loadCourses() {
+            this.$router.push('courses')
         },
 
         loadEvents() {

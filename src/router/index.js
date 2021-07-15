@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 
 import Cities from '../views/Cities.vue'
 import Contractors from '../views/Contractors.vue'
+import Courses from '../views/Courses.vue'
 import Emails from '../views/Emails.vue'
 import Events from '../views/Events.vue'
 import Feedback from '../views/Feedback.vue'
@@ -29,6 +30,11 @@ const routes = [
         path: '/contractors',
         name: 'Contractors',
         component: Contractors,
+    },
+    {
+        path: '/courses',
+        name: 'Courses',
+        component: Courses,
     },
     {
         path: '/emails',
