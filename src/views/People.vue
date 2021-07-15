@@ -77,7 +77,10 @@
                             <div class="card component-card_9">
                                     <img :src="person.thumb" class="person-thumbnail" alt="widget-card-2">
                                     <div class="card-body">
-                                        <p class="meta-date">{{person.firstName + ' ' + person.lastName}}</p>
+                                        <p class="meta-date">
+                                            {{person.firstName + ' ' + person.lastName}}
+                                            <br />{{person.country}}
+                                        </p>
                                     </div>
                                 </div>
                         </div>
@@ -185,6 +188,7 @@ export default {
                 const id = person.id
                 const firstName = person.firstName
                 const lastName = person.lastName
+                const country = person.country
 
                 let thumb
 
@@ -198,6 +202,7 @@ export default {
                     firstName,
                     lastName,
                     thumb,
+                    country,
                 })
             })
 
