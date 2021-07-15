@@ -42,12 +42,16 @@
                             <TotalNewMerchants />
                         </div>
 
-                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing clickable" @click="loadContractors">
+                        <div class="col-xl-2 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing clickable" @click="loadContractors">
                             <TotalContractorCount />
                         </div>
 
-                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing clickable" @click="loadCities">
+                        <div class="col-xl-2 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing clickable" @click="loadCities">
                             <TotalActiveCities />
+                        </div>
+
+                        <div class="col-xl-2 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing clickable" @click="loadCourses">
+                            <TotalActiveCourses />
                         </div>
 
                         <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
@@ -93,12 +97,6 @@
                             </div>
                         </div>
 
-                    </div>
-
-                    <div class="row layout-top-spacing">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing clickable" @click="loadCourses">
-                            <TotalActiveCourses />
-                        </div>
                     </div>
 
                     <Footer />

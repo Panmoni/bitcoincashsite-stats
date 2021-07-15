@@ -23,7 +23,7 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                                     </router-link>
                                 </li>
-                                <li class="breadcrumb-item active" aria-current="page"><span>Cities</span></li>
+                                <li class="breadcrumb-item active" aria-current="page"><span>Courses</span></li>
                             </ol>
                         </nav>
 
@@ -34,59 +34,45 @@
                         <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                             <div class="widget widget-chart-one">
                                 <div class="widget-heading mb-3">
-                                    <h3 class="">{{total}} Total Cities</h3>
-                                    <!-- <ul class="tabs tab-pills">
-                                        <li><a href="javascript://" id="tb_1" class="tabmenu">Monthly</a></li>
-                                    </ul> -->
+                                    <h3 class="">{{total}} Merchant Onboarding (EN) Courses</h3>
                                 </div>
 
-                                <div class="widget-content">
-                                    <div class="order-summary">
-                                        <div class="summary-list">
-                                            <!-- <div class="w-icon">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                                            </div> -->
-                                            <div class="w-summary-details" v-for="(city, index) of cities" :key="city.id">
-
-                                                <div class="w-summary-info">
-                                                    <h5>{{index + 1}}. {{city[0]}}</h5>
-                                                </div>
-
-                                                <div class="scoreboard-people">
-                                                    <div class="text-white">People - <strong>{{countDisplay(city[1])}}</strong></div>
-                                                    <div class="progress progress-sm">
-                                                        <div class="progress-bar bg-gradient-warning" role="progressbar" :style="{ width: calcProgress('people', city[1])}" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="scoreboard-merchants">
-                                                    <div class="text-white">Merchants - <strong>{{countDisplay(city[2])}}</strong></div>
-                                                    <div class="progress progress-sm">
-                                                        <div class="progress-bar bg-gradient-secondary" role="progressbar" :style="{ width: calcProgress('merchants', city[2])}" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="scoreboard-contractors">
-                                                    <div class="text-white">Contractors - <strong>{{countDisplay(city[3])}}</strong></div>
-                                                    <div class="progress progress-sm">
-                                                        <div class="progress-bar bg-gradient-primary" role="progressbar" :style="{ width: calcProgress('contractors', city[3])}" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
+                                <ul class="list-unstyled">
+                                    <li class="media clickable" v-for="entry of listEdu001" :key="entry.id" @click="openSpeech(entry.speech)">
+                                        <img class="rounded screenshot" :src="entry.screenshot" alt="pic1">
+                                        <div class="media-body">
+                                            <h4 class="media-heading">{{entry.firstName}} {{entry.lastName}}</h4>
+                                            <p class="media-text">{{entry.description}}</p>
                                         </div>
-
-                                    </div>
-                                </div>
+                                    </li>
+                                </ul>
 
                             </div>
                         </div>
 
+                        <!-- <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                            <div class="widget widget-chart-one">
+                                <div class="widget-heading mb-3">
+                                    <h3 class="">BAV Agent (ES)</h3>
+                                </div>
+
+                                <ul class="list-unstyled">
+                                    <li class="media clickable" v-for="entry of listEdu002" :key="entry.id" @click="openSpeech(entry.speech)">
+                                        <img class="rounded screenshot" :src="entry.screenshot" alt="pic1">
+                                        <div class="media-body">
+                                            <h4 class="media-heading">{{entry.firstName}} {{entry.lastName}}</h4>
+                                            <p class="media-text">{{entry.description}}</p>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div> -->
+
                         <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                             <div class="widget widget-chart-two">
                                 <div class="widget-heading">
-                                    <h5 class="">Our Global Presence</h5>
+                                    <h5 class="">Our Educational Programs</h5>
                                 </div>
                                 <div class="widget-content">
                                     <p class="px-3 py-2">
@@ -116,7 +102,7 @@
 <script>
 /* Import modules. */
 // import ApexCharts from 'apexcharts'
-import numeral from 'numeral'
+// import numeral from 'numeral'
 import superagent from 'superagent'
 
 const API_ENDPOINT = `https://api.bitcoincash.site/v1`
@@ -129,102 +115,98 @@ export default {
     data: () => {
         return {
             total: null,
-            cities: null,
+            edu001: null,
+            edu002: null,
         }
+    },
+    computed: {
+        listEdu001() {
+            if (!this.edu001) {
+                return []
+            }
+
+            const courses = []
+
+            Object.keys(this.edu001).forEach(entryid => {
+                const entry = this.edu001[entryid]
+
+                if (!entry.speech) return
+
+                courses.push({
+                    id: entry.id,
+                    firstName: entry.firstName[0],
+                    lastName: entry.lastName[0],
+                    city: entry.city[0],
+                    country: entry.country[0],
+                    screenshot: entry.screenshot[0].thumbnails.large.url,
+                    speech: entry.speech,
+                    description: entry.description,
+                })
+            })
+
+            courses.reverse()
+
+            // console.log('COURSES', courses)
+
+            return courses
+        },
+
+        // listEdu002() {
+        //     if (!this.edu002) {
+        //         return []
+        //     }
+        //
+        //     const courses = []
+        //
+        //     Object.keys(this.edu002).forEach(entryid => {
+        //         const entry = this.edu002[entryid]
+        //         console.log('ENTRY', entry);
+        //
+        //         if (!entry.screenshot) return
+        //
+        //         courses.push({
+        //             id: entry.id,
+        //             firstName: entry.firstName[0],
+        //             lastName: entry.lastName[0],
+        //             city: entry.city[0],
+        //             country: entry.country[0],
+        //             // screenshot: entry.screenshot[0].thumbnails.large.url,
+        //             speech: entry.speech,
+        //             // description: entry.description,
+        //         })
+        //     })
+        //
+        //     console.log('COURSES', courses)
+        //
+        //     return courses
+        // },
+
     },
     methods: {
         async init() {
-            const result = await superagent.get(`${API_ENDPOINT}/stats/cities`)
+            const result = await superagent.get(`${API_ENDPOINT}/stats/courses`)
             // console.log('RESULT', result)
 
             if (result.body) {
                 const body = result.body
-                // console.log('BODY:', body)
+                console.log('BODY:', body)
 
-                if (body.total) {
-                    this.total = numeral(body.total).format('0,0')
+                if (body['edu001']) {
+                    this.edu001 = body['edu001']
+
+                    this.total = Object.keys(this.edu001).length
                 }
 
-                if (body.cities) {
-                    this.cities = body.cities
-                    // console.log('CITIES', this.cities)
+                if (body['edu002']) {
+                    this.edu002 = body['edu002']
                 }
 
-                // this.displayCities()
             }
 
         },
 
-        calcProgress(_index, _value) {
-            if (_index === 'contractors') {
-                if (_value > 80) {
-                    return '95%'
-                } else if (_value > 70) {
-                    return '70%'
-                } else if (_value > 60) {
-                    return '60%'
-                } else if (_value > 50) {
-                    return '50%'
-                } else if (_value > 40) {
-                    return '40%'
-                } else if (_value > 30) {
-                    return '30%'
-                } else if (_value > 20) {
-                    return '20%'
-                } else if (_value > 0) {
-                    return `${_value}%`
-                }
-
-                return '0%'
-            }
-
-            if (_index === 'merchants') {
-                if (_value > 550) {
-                    return '95%'
-                } else if (_value > 100) {
-                    return '70%'
-                } else if (_value > 90) {
-                    return '60%'
-                } else if (_value > 80) {
-                    return '50%'
-                } else if (_value > 70) {
-                    return '40%'
-                } else if (_value > 50) {
-                    return '30%'
-                } else if (_value > 20) {
-                    return '20%'
-                } else if (_value > 0) {
-                    return `${_value}%`
-                }
-
-                return '0%'
-            }
-
-            if (_index === 'people') {
-                if (_value > 1000) {
-                    return '95%'
-                } else if (_value > 100) {
-                    return '70%'
-                } else if (_value > 90) {
-                    return '60%'
-                } else if (_value > 80) {
-                    return '50%'
-                } else if (_value > 70) {
-                    return '40%'
-                } else if (_value > 50) {
-                    return '30%'
-                } else if (_value > 20) {
-                    return '20%'
-                } else if (_value > 0) {
-                    return `${_value}%`
-                }
-
-                return '0%'
-            }
-        },
-
-        countDisplay(_count) {
-            return numeral(_count).format('0,0')
+        openSpeech(_url) {
+            window.open(_url)
         },
 
     },
@@ -240,12 +222,16 @@ export default {
 </script>
 
 <style scoped>
-.w-summary-details {
-    padding: 15px;
+.media {
+    margin-bottom: 25px;
 }
 
-.scoreboard-merchants, .scoreboard-people, .scoreboard-contractors {
-    margin-left: 30px;
-    width: calc(100% - 50px);
+.screenshot {
+    width: 100px;
+    /* height: 100px; */
+
+    margin-right: 15px;
+
+    object-fit: cover;
 }
 </style>

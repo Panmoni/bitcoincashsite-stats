@@ -21,8 +21,8 @@ import ApexCharts from 'apexcharts'
 import numeral from 'numeral'
 import superagent from 'superagent'
 
-// const API_ENDPOINT = `https://api.bitcoincash.site/v1`
-const API_ENDPOINT = `http://localhost:8080/v1`
+const API_ENDPOINT = `https://api.bitcoincash.site/v1`
+// const API_ENDPOINT = `http://localhost:8080/v1`
 
 export default {
     data: () => {
@@ -39,15 +39,15 @@ export default {
     },
     methods: {
         async init() {
-            const result = await superagent.get(`${API_ENDPOINT}/stats/cities`)
+            const result = await superagent.get(`${API_ENDPOINT}/stats/courses`)
             // console.log('RESULT', result)
 
             if (result.body) {
                 const body = result.body
                 // console.log('BODY:', body)
 
-                if (body.total) {
-                    this.total = body.total
+                if (body.edu001) {
+                    this.total = Object.keys(body.edu001).length
 
                     this.drawGraph()
                 }
@@ -83,13 +83,13 @@ export default {
                 },
                 series: [{
                     name: 'Cities',
-                    data: [ 1, 4, 8, 20, 30, 50, this.total ]
+                    data: [ 1, 2, 4, 8, 15, 20, this.total ]
                 }],
                 labels: ['1', '2', '3', '4', '5', 'last month', 'current'],
                 yaxis: {
                     min: 0
                 },
-                colors: ['#008E9B'],
+                colors: ['#4CAF50'],
                 tooltip: {
                     x: {
                         show: false,
