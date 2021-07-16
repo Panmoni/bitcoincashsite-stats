@@ -45,7 +45,7 @@ export default {
 
             if (result.body) {
                 const body = result.body
-                // console.log('BODY:', body)
+                // console.log('TOTAL NEW PEOPLE', body)
 
                 if (body.total) {
                     this.total = body.total

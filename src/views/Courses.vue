@@ -32,42 +32,28 @@
                     <div class="row sales layout-top-spacing">
 
                         <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+
                             <div class="widget widget-chart-one">
                                 <div class="widget-heading mb-3">
-                                    <h3 class="">{{total}} Merchant Onboarding (EN) Courses</h3>
+                                    <h3 class="">Merchant Onboarding</h3>
                                 </div>
 
-                                <ul class="list-unstyled">
-                                    <li class="media clickable" v-for="entry of listEdu001" :key="entry.id" @click="openSpeech(entry.speech)">
-                                        <img class="rounded screenshot" :src="entry.screenshot" alt="pic1">
-                                        <div class="media-body">
-                                            <h4 class="media-heading">{{entry.firstName}} {{entry.lastName}}</h4>
-                                            <p class="media-text">{{entry.description}}</p>
-                                        </div>
-                                    </li>
-                                </ul>
+                            </div>
+
+                            <div class="courses-chart" id="chart-merchant-onboarding"></div>
+
+                            <hr />
+
+                            <div class="widget widget-chart-one">
+                                <div class="widget-heading mb-3">
+                                    <h3 class="">Bitcoin Agents Venezuela</h3>
+                                </div>
 
                             </div>
+
+                            <div class="courses-chart" id="chart-bav"></div>
+
                         </div>
-
-                        <!-- <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                            <div class="widget widget-chart-one">
-                                <div class="widget-heading mb-3">
-                                    <h3 class="">BAV Agent (ES)</h3>
-                                </div>
-
-                                <ul class="list-unstyled">
-                                    <li class="media clickable" v-for="entry of listEdu002" :key="entry.id" @click="openSpeech(entry.speech)">
-                                        <img class="rounded screenshot" :src="entry.screenshot" alt="pic1">
-                                        <div class="media-body">
-                                            <h4 class="media-heading">{{entry.firstName}} {{entry.lastName}}</h4>
-                                            <p class="media-text">{{entry.description}}</p>
-                                        </div>
-                                    </li>
-                                </ul>
-
-                            </div>
-                        </div> -->
 
                         <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                             <div class="widget widget-chart-two">
@@ -101,7 +87,7 @@
 
 <script>
 /* Import modules. */
-// import ApexCharts from 'apexcharts'
+import ApexCharts from 'apexcharts'
 // import numeral from 'numeral'
 import superagent from 'superagent'
 
@@ -114,92 +100,91 @@ export default {
     },
     data: () => {
         return {
-            total: null,
+            // total: null,
+            contractors: null,
+
             edu001: null,
+            edu001Onboarded: null,
+            edu001Submitted: null,
+            edu001Accepted: null,
+
             edu002: null,
+            edu002Onboarded: null,
+            edu002Submitted: null,
+            edu002Accepted: null,
         }
     },
     computed: {
-        listEdu001() {
-            if (!this.edu001) {
-                return []
-            }
-
-            const courses = []
-
-            Object.keys(this.edu001).forEach(entryid => {
-                const entry = this.edu001[entryid]
-
-                if (!entry.speech) return
-
-                courses.push({
-                    id: entry.id,
-                    firstName: entry.firstName[0],
-                    lastName: entry.lastName[0],
-                    city: entry.city[0],
-                    country: entry.country[0],
-                    screenshot: entry.screenshot[0].thumbnails.large.url,
-                    speech: entry.speech,
-                    description: entry.description,
-                })
-            })
-
-            courses.reverse()
-
-            // console.log('COURSES', courses)
-
-            return courses
-        },
-
-        // listEdu002() {
-        //     if (!this.edu002) {
-        //         return []
-        //     }
         //
-        //     const courses = []
-        //
-        //     Object.keys(this.edu002).forEach(entryid => {
-        //         const entry = this.edu002[entryid]
-        //         console.log('ENTRY', entry);
-        //
-        //         if (!entry.screenshot) return
-        //
-        //         courses.push({
-        //             id: entry.id,
-        //             firstName: entry.firstName[0],
-        //             lastName: entry.lastName[0],
-        //             city: entry.city[0],
-        //             country: entry.country[0],
-        //             // screenshot: entry.screenshot[0].thumbnails.large.url,
-        //             speech: entry.speech,
-        //             // description: entry.description,
-        //         })
-        //     })
-        //
-        //     console.log('COURSES', courses)
-        //
-        //     return courses
-        // },
-
     },
     methods: {
         async init() {
-            const result = await superagent.get(`${API_ENDPOINT}/stats/courses`)
+            let result
+            result = await superagent.get(`${API_ENDPOINT}/contractors`)
+            // console.log('RESULT', result)
+
+            if (result.body) {
+                this.contractors = result.body
+                // console.log('CONTRACTORS', result.body)
+
+                Object.keys(this.contractors).forEach(contractorid => {
+                    const contractor = this.contractors[contractorid]
+
+                    const workInterests = contractor.workInterests
+
+                    if (workInterests) {
+                        workInterests.forEach(interest => {
+                            if (interest === 'Merchant Onboarding') {
+                                this.edu001Onboarded++
+                            }
+
+                            if (interest === 'Bitcoin Agents Venezuela') {
+                                this.edu002Onboarded++
+                            }
+                        })
+                    }
+
+                })
+
+            }
+
+
+            result = await superagent.get(`${API_ENDPOINT}/stats/courses`)
             // console.log('RESULT', result)
 
             if (result.body) {
                 const body = result.body
-                console.log('BODY:', body)
+                console.log('COURSES', body)
 
                 if (body['edu001']) {
                     this.edu001 = body['edu001']
 
-                    this.total = Object.keys(this.edu001).length
+                    this.edu001Submitted = Object.keys(this.edu001).length
+
+                    Object.keys(this.edu001).forEach(courseid => {
+                        const course = this.edu001[courseid]
+
+                        if (course.status === 'Accepted') {
+                            this.edu001Accepted++
+                        }
+                    })
                 }
 
                 if (body['edu002']) {
                     this.edu002 = body['edu002']
+
+                    this.edu002Submitted = Object.keys(this.edu002).length
+
+                    Object.keys(this.edu002).forEach(courseid => {
+                        const course = this.edu002[courseid]
+
+                        if (course.status === 'Accepted') {
+                            this.edu002Accepted++
+                        }
+                    })
                 }
+
+                this.drawCharts()
 
             }
 
@@ -209,9 +194,130 @@ export default {
             window.open(_url)
         },
 
+        drawCharts() {
+            let chart
+            let options
+
+            options = {
+                chart: {
+                    height: 350,
+                    type: 'bar',
+                    stacked: true,
+                    toolbar: {
+                      show: false,
+                    }
+                },
+                responsive: [{
+                    breakpoint: 640,
+                    options: {
+                        legend: {
+                            position: 'bottom',
+                            offsetX: -10,
+                            offsetY: 0
+                        }
+                    }
+                }],
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                    },
+                },
+                series: [{
+                    name: 'Total Onboarded',
+                    data: [ 20, 31, 45, 55, 69, this.edu001Onboarded ],
+                },{
+                    name: 'Total Submitted',
+                    data: [ 13, 17, 21, 25, 28, this.edu001Submitted ],
+                },{
+                    name: 'Total Accepted',
+                    data: [ 11, 15, 19, 23, 26, this.edu001Accepted ],
+                }],
+                xaxis: {
+                    // type: 'datetime',
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                },
+                legend: {
+                    position: 'right',
+                    offsetY: 40
+                },
+                fill: {
+                    opacity: 1
+                },
+            }
+
+            chart = new ApexCharts(
+                document.querySelector('#chart-merchant-onboarding'),
+                options,
+            )
+
+            chart.render()
+
+            options = {
+                chart: {
+                    height: 350,
+                    type: 'bar',
+                    stacked: true,
+                    toolbar: {
+                      show: false,
+                    }
+                },
+                responsive: [{
+                    breakpoint: 640,
+                    options: {
+                        legend: {
+                            position: 'bottom',
+                            offsetX: -10,
+                            offsetY: 0
+                        }
+                    }
+                }],
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                    },
+                },
+                series: [{
+                    name: 'Total Onboarded',
+                    data: [ 15, 21, 35, 41, 59, this.edu002Onboarded ],
+                },{
+                    name: 'Total Submitted',
+                    data: [ 9, 12, 15, 18, 20, this.edu002Submitted ],
+                },{
+                    name: 'Total Accepted',
+                    data: [ 5, 8, 11, 14, 16, this.edu002Accepted ],
+                }],
+                xaxis: {
+                    // type: 'datetime',
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                },
+                legend: {
+                    position: 'right',
+                    offsetY: 40
+                },
+                fill: {
+                    opacity: 1
+                },
+            }
+
+            chart = new ApexCharts(
+                document.querySelector('#chart-bav'),
+                options,
+            )
+
+            chart.render()
+        },
+
     },
     created: function () {
-        this.total = 0
+        // this.total = 0
+
+        this.edu001Onboarded = 0
+        this.edu001Submitted = 0
+        this.edu001Accepted = 0
+
+        this.edu002Onboarded = 0
+        this.edu002Submitted = 0
+        this.edu002Accepted = 0
 
     },
     mounted: function () {

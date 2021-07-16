@@ -40,7 +40,7 @@
                                     </ul> -->
                                 </div>
 
-                                <div id="contractorsByCountry"></div>
+                                <div class="contractor-chart" id="contractorsByCountry"></div>
                             </div>
                         </div>
 
@@ -385,10 +385,10 @@ export default {
                 // labels: ['Columbia', 'Nigeria', 'Venezuela'],
                 labels,
                 responsive: [{
-                    breakpoint: 480,
+                    breakpoint: 640,
                     options: {
                         chart: {
-                            width: 200
+                            // width: 200
                         },
                         legend: {
                             position: 'bottom'
@@ -419,6 +419,10 @@ export default {
 </script>
 
 <style scoped>
+.contractor-chart {
+    /* border: 5pt solid red; */
+}
+
 .person-label, .merchant-label {
     font-size: 1.3em;
 }
