@@ -49,7 +49,7 @@
                                             <div class="w-summary-details" v-for="(city, index) of cities" :key="city.id">
 
                                                 <div class="w-summary-info">
-                                                    <h5>{{index + 1}}. {{city[0]}}</h5>
+                                                    <h5>{{index + 1}}. {{city[0]}}, {{displayCountry(city[0])}}</h5>
                                                 </div>
 
                                                 <div class="scoreboard-people">
@@ -130,6 +130,7 @@ export default {
         return {
             total: null,
             cities: null,
+            countries: null,
         }
     },
     methods: {
@@ -147,6 +148,11 @@ export default {
 
                 if (body.cities) {
                     this.cities = body.cities
+                    // console.log('CITIES', this.cities)
+                }
+
+                if (body.countries) {
+                    this.countries = body.countries
                     // console.log('CITIES', this.cities)
                 }
 
@@ -225,6 +231,20 @@ export default {
 
         countDisplay(_count) {
             return numeral(_count).format('0,0')
+        },
+
+        displayCountry(_cityName) {
+            if (this.countries && this.countries[_cityName]) {
+                const country = this.countries[_cityName]
+
+                if (country === 'Venezuela (Bolivarian Republic of)') {
+                    return 'Venezuela'
+                }
+
+                return country
+            } else {
+                return 'Unknown'
+            }
         },
 
     },
