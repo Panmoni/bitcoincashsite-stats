@@ -19,9 +19,9 @@
             <div id="content" class="main-content">
                 <div class="layout-px-spacing">
 
-                    <div class="page-header text-white">
+                    <div class="home-header text-white">
                         <div class="page-title">
-                            <h3>BitcoinCashSite Statistics</h3>
+                            <h3>Stats.Panmoni.com</h3>
                         </div>
 
                         <div v-if="usd">

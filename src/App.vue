@@ -13,7 +13,7 @@
     margin-bottom: 0;
     align-self: center;
     padding-right: 15px;
-    border-right: 1px solid #bfc9d4;
+    /* border-right: 1px solid #bfc9d4; */
     margin-right: 15px;
 }
 .page-title h3 {
@@ -103,4 +103,7 @@
     margin-bottom: 0;
 }
 
+nav {
+    margin-top: 10px;
+}
 </style>
