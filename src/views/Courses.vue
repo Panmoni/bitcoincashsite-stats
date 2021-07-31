@@ -234,7 +234,7 @@ export default {
                 }],
                 xaxis: {
                     // type: 'datetime',
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
                 },
                 legend: {
                     position: 'right',
@@ -288,7 +288,7 @@ export default {
                 }],
                 xaxis: {
                     // type: 'datetime',
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
                 },
                 legend: {
                     position: 'right',

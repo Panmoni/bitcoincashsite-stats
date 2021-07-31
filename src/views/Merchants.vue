@@ -44,6 +44,18 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <hr />
+
+                                <div class="widget widget-chart-one">
+                                    <div class="widget-heading mb-3">
+                                        <h5 class="">Merchant Verification</h5>
+                                    </div>
+
+                                </div>
+
+                                <div class="courses-chart" id="chart-verification"></div>
+
                             </div>
                         </div>
 
@@ -75,11 +87,15 @@
                             class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing"
                         >
                             <div class="card component-card_9">
-                                    <img :src="merchant.thumb" class="merchant-thumbnail" alt="widget-card-2">
+                                    <img :src="merchant.thumb" @click="openGMB(merchant)" class="merchant-thumbnail" :class="{ 'clickable': merchant.googleBusiness }" alt="widget-card-2">
+
                                     <div class="card-body">
-                                        <p class="meta-date">
-                                            {{merchant.companyName}}
-                                            <br />{{merchant.country}}
+                                        <h5 v-if="merchant.googleBusiness"><a :href="merchant.googleBusiness" target="_blank">{{merchant.companyName}}</a></h5>
+                                        <h5 v-else>{{merchant.companyName}}</h5>
+
+                                        <p class="meta-date mt-n2">
+                                            <small>{{merchant.status}}</small>
+                                            <br />{{merchant.streetAddress}}, {{merchant.city}}, {{merchant.country}}
                                         </p>
                                     </div>
                                 </div>
@@ -123,6 +139,11 @@ export default {
             numDisplayed: null,
             hasMoreEntries: null,
             isLoading: null,
+
+            totalInactive: null,
+            totalVerified: null,
+            totalSubmitedToMap: null,
+            totalAcceptedToMap: null,
         }
     },
     computed: {
@@ -187,9 +208,19 @@ export default {
                 /* Set thumbnail URL. */
                 const id = merchant.id
                 const companyName = merchant.companyName
+                const streetAddress = merchant.streetAddress
+                const city = merchant.city
                 const country = merchant.country
+                const googleBusiness = merchant.googleBusiness
 
+                let status
                 let thumb
+
+                if (merchant.status) {
+                    status = merchant.status.toUpperCase()
+                } else {
+                    status = 'NEW MERCHANT'
+                }
 
                 if (merchant.storefrontPhoto && merchant.storefrontPhoto[0] && merchant.storefrontPhoto[0].thumbnails) {
                     thumb = merchant.storefrontPhoto[0].thumbnails.large.url
@@ -198,9 +229,13 @@ export default {
                 /* Validate thumb. */
                 this.merchants.push({
                     id,
+                    status,
                     companyName,
+                    streetAddress,
+                    city,
                     country,
                     thumb,
+                    googleBusiness,
                 })
             })
 
@@ -297,6 +332,67 @@ export default {
             )
             chart.render()
 
+            options = {
+                chart: {
+                    height: 350,
+                    type: 'bar',
+                    stacked: true,
+                    toolbar: {
+                      show: false,
+                    }
+                },
+                responsive: [{
+                    breakpoint: 640,
+                    options: {
+                        legend: {
+                            position: 'bottom',
+                            offsetX: -10,
+                            offsetY: 0
+                        }
+                    }
+                }],
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                    },
+                },
+                series: [{
+                    name: 'Total Inactive',
+                    data: [ 15, 21, 35, 41, 59, this.totalInactive ],
+                },{
+                    name: 'Total Verified',
+                    data: [ 9, 12, 15, 18, 20, this.totalVerified ],
+                },{
+                    name: 'Submitted to map.bitcoin.com',
+                    data: [ 5, 8, 11, 14, 16, this.totalSubmitedToMap ],
+                },{
+                    name: 'Accepted by map.bitcoin.com',
+                    data: [ 2, 3, 5, 7, 8, this.totalAcceptedToMap ],
+                }],
+                xaxis: {
+                    // type: 'datetime',
+                    categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                },
+                legend: {
+                    position: 'right',
+                    offsetY: 40
+                },
+                fill: {
+                    opacity: 1
+                },
+            }
+
+            chart = new ApexCharts(
+                document.querySelector('#chart-verification'),
+                options,
+            )
+
+            chart.render()
+
+        },
+
+        openGMB(_merchant) {
+            window.open(_merchant.googleBusiness)
         },
 
     },
@@ -306,6 +402,11 @@ export default {
 
         this.numDisplayed = ENTRIES_PER_PAGE
         this.hasMoreEntries = false
+
+        this.totalInactive = 0
+        this.totalVerified = 0
+        this.totalSubmitedToMap = 0
+        this.totalAcceptedToMap = 0
     },
     mounted: function () {
         this.init()

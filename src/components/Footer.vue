@@ -31,7 +31,7 @@
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                         <h3 class="text-success">Contact Us</h3>
 
-                        <a mailto="hello@panmoni.com">hello@panmoni.com</a>
+                        <h5><a href="mailto:hello@panmoni.com">hello@panmoni.com</a></h5>
 
                         <div v-if="posts.length">
                             <hr />

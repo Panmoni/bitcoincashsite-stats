@@ -99,6 +99,25 @@
 
                     </div>
 
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="jumbotron">
+                                <img class="partner-qrcode" src="https://bitcoincashsite.com/wp-content/uploads/2021/06/qz3pxmwda8gd42wa8k9yfxcwhcaapeuhygjc8mc4m8.png" />
+                                <h2 class="display-4 mb-5  mt-4">Support BCH Mass Adoption</h2>
+
+                                <p class="lead mt-3 mb-4">
+                                    Panmoni is committed to building Bitcoin Cash mass adoption in partnership with the BCH ecosystem on a win-win basis. Let’s work together!
+                                </p>
+
+                                <!-- <hr class="my-4"> -->
+
+                                <p class="lead">
+                                    <a class="btn btn-warning btn-lg" href="https://bitcoincashsite.com/partner" target="_blank" role="button">Learn more</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                     <Footer />
                 </div>
             </div>
@@ -261,5 +280,10 @@ export default {
 </script>
 
 <style scoped>
-/*  */
+.partner-qrcode {
+    float: right;
+    width: 250px;
+    height: 250px;
+    margin-left: 100px;
+}
 </style>
